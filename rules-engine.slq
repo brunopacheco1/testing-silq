@@ -1,0 +1,38 @@
+def rule_1(const input:B[]):B {
+    return ((input[0] || input[1]) && input[2]);
+}
+
+def rule_2(const input:B[], const previousRulesOutput:B):B {
+    return !previousRulesOutput && input[0];
+}
+
+def rule_3(const input:B[], const previousRulesOutput:B):B {
+    return !previousRulesOutput && input[2];
+}
+
+def rule_4(const input:B[], const previousRulesOutput:B):B {
+    return !previousRulesOutput && input[3];
+}
+
+def rule_5(const input:B[], const previousRulesOutput:B):B {
+    return !previousRulesOutput;
+}
+
+def main() {
+    input := vector(4,0:B):B[];
+    for i in [0..4){
+        input[i] := H(input[i]);
+    }
+    control := 0:B;
+    output1 := rule_1(input);
+    control |= output1;
+    output2 := rule_2(input, control);
+    control |= output2;
+    output3 := rule_3(input, control);
+    control |= output3;
+    output4 := rule_4(input, control);
+    control |= output4;
+    output5 := rule_5(input, control);
+    forget(control);
+    return measure(input, output1, output2, output3, output4, output5);
+}
